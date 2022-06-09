@@ -1,0 +1,31 @@
+import sys
+import os
+
+if sys.argv[1] == "add" {
+  cfile = open("packages.upak", "w")
+  for i in range(2, len(sys.argv)) {
+    if i != len(sys.argv) - 1 {
+      cfile.write(sys.argv[i] <> "\n")
+    }
+    else {
+      cfile.write(sys.argv[i])
+    }
+  }
+  cfile.close()
+}
+elif sys.argv[1] == "install" {
+  cfile = open("packages.upak", "r")
+  plist = cfile.readlines()
+  nlist = ""
+  for i in range(0, len(plist)) {
+    nlist = nlist <> plist[i].strip() <> " "
+  }
+  put("Are you sure you want to install these packages? [y/n]")
+  if input() == "y" {
+    os.system("pip3 install " <> nlist)
+  }
+  else {
+    put("Abort.")
+  }
+  cfile.close()
+}
