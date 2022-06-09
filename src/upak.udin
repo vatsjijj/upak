@@ -29,7 +29,7 @@ elif sys.argv[1] == "install" {
   for i in range(0, len(plist)) {
     nlist = nlist <> plist[i].strip() <> " "
   }
-  put("Packagelist:\n" <> str(plist))
+  put("Packagelist:\n" <> nlist)
   put("Are you sure you want to install these packages? [y/n]")
   if input() == "y" {
     os.system("pip3 install " <> nlist)
@@ -39,6 +39,25 @@ elif sys.argv[1] == "install" {
   }
   cfile.close()
 }
+elif sys.argv[1] == "build" {
+  ver = ""
+  builddir = ""
+  if !os.path.exists("build.upak") {
+    put("Error: No 'build.upak' file found.")
+    sys.exit()
+  }
+  cfile = open("build.upak", "r")
+  pfile = cfile.read().splitlines()
+  for i in range(0, len(pfile)) {
+    match pfile[i].split()[0] {
+      "ver:" -> ver = pfile[i].split()[1]
+      "src:" -> builddir = pfile[i].split()[1]
+      _ -> sys.exit(1)
+    }
+  }
+  put("UPAK: Building for version " <> ver)
+  os.system("udin c " <> builddir)
+}
 elif sys.argv[1] == "ver" {
-  put("0.1.1")
+  put("0.1.2")
 }
