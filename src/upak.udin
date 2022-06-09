@@ -1,15 +1,24 @@
 import sys
 import os
 
+if len(sys.argv) <= 1 {
+  put("Usage:")
+  put(" upak add <packages>")
+  put(" upak install")
+  put(" upak ver")
+  sys.exit()
+}
+
 if sys.argv[1] == "add" {
-  cfile = open("packages.upak", "w")
+  if os.path.exists("packages.upak") {
+    cfile = open("packages.upak", "a")
+  }
+  else {
+    cfile = open("packages.upak", "w")
+  }
   for i in range(2, len(sys.argv)) {
-    if i != len(sys.argv) - 1 {
-      cfile.write(sys.argv[i] <> "\n")
-    }
-    else {
-      cfile.write(sys.argv[i])
-    }
+    cfile.write(sys.argv[i] <> "\n")
+    put("Added '" <> sys.argv[i] <> "'.")
   }
   cfile.close()
 }
@@ -20,6 +29,7 @@ elif sys.argv[1] == "install" {
   for i in range(0, len(plist)) {
     nlist = nlist <> plist[i].strip() <> " "
   }
+  put("Packagelist:\n" <> str(plist))
   put("Are you sure you want to install these packages? [y/n]")
   if input() == "y" {
     os.system("pip3 install " <> nlist)
@@ -28,4 +38,7 @@ elif sys.argv[1] == "install" {
     put("Abort.")
   }
   cfile.close()
+}
+elif sys.argv[1] == "ver" {
+  put("0.1.1")
 }
