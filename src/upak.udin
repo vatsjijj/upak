@@ -52,7 +52,7 @@ elif sys.argv[1] == "build" {
     match pfile[i].split()[0] {
       "ver:" -> ver = pfile[i].split()[1]
       "src:" -> builddir = pfile[i].split()[1]
-      _ -> sys.exit(1)
+      _ -> sys.exit()
     }
   }
   put("UPAK: Building for version " <> ver)

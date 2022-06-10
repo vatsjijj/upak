@@ -8,19 +8,14 @@ You need `pip3` and `udin`, you can find Udin easily on my page.
 
 That's it.
 
+If you already have upak built, run `upak build` and it will be built.
+
+If you don't, run `udin c src/upak.udin`.
+
 # Usage
 `upak add <packages>`
 
 `upak install`
-
-For example:
-```
-upak add raylib numpy
-upak install
-Are you sure you want to install these packages? [y/n]
-y
-[pip3 output here]
-```
 
 And you're done.
 
