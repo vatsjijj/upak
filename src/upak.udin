@@ -40,6 +40,8 @@ elif sys.argv[1] == "install" {
   cfile.close()
 }
 elif sys.argv[1] == "build" {
+  hasVer = false
+  hasSrc = false
   ver = ""
   builddir = ""
   if !os.path.exists("build.upak") {
@@ -50,14 +52,24 @@ elif sys.argv[1] == "build" {
   pfile = cfile.read().splitlines()
   for i in range(0, len(pfile)) {
     match pfile[i].split()[0] {
-      "ver:" -> ver = pfile[i].split()[1]
-      "src:" -> builddir = pfile[i].split()[1]
+      "ver:" -> {
+        ver = pfile[i].split()[1]
+        hasVer = true
+      }
+      "src:" -> {
+        builddir = pfile[i].split()[1]
+        hasSrc = true
+      }
       _ -> sys.exit()
     }
+  }
+  if !hasSrc || !hasVer {
+    put("Error: You are missing either 'ver' or 'src'.")
+    sys.exit()
   }
   put("UPAK: Building for version " <> ver)
   os.system("udin c " <> builddir)
 }
 elif sys.argv[1] == "ver" {
-  put("0.1.2")
+  put("0.1.3")
 }
