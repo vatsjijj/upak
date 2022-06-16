@@ -1,75 +1,58 @@
 import sys
 import os
 
-if len(sys.argv) <= 1 {
+if len(sys.argv) <= 1:
   put("Usage:")
   put(" upak add <packages>")
   put(" upak install")
   put(" upak ver")
   sys.exit()
-}
 
-if sys.argv[1] == "add" {
-  if os.path.exists("packages.upak") {
+if sys.argv[1] == "add":
+  if os.path.exists("packages.upak"):
     cfile = open("packages.upak", "a")
-  }
-  else {
+  else:
     cfile = open("packages.upak", "w")
-  }
-  for i in range(2, len(sys.argv)) {
+  for i in range(2, len(sys.argv)):
     cfile.write(sys.argv[i] <> "\n")
     put("Added '" <> sys.argv[i] <> "'.")
-  }
   cfile.close()
-}
-elif sys.argv[1] == "install" {
+elif sys.argv[1] == "install":
   cfile = open("packages.upak", "r")
   plist = cfile.readlines()
   nlist = ""
-  for i in range(0, len(plist)) {
+  for i in range(0, len(plist)):
     nlist = nlist <> plist[i].strip() <> " "
-  }
   put("Packagelist:\n" <> nlist)
   put("Are you sure you want to install these packages? [y/n]")
-  if input() == "y" {
+  if input() == "y":
     os.system("pip3 install " <> nlist)
-  }
-  else {
+  else:
     put("Abort.")
-  }
   cfile.close()
-}
-elif sys.argv[1] == "build" {
+elif sys.argv[1] == "build":
   hasVer = false
   hasSrc = false
   ver = ""
   builddir = ""
-  if !os.path.exists("build.upak") {
+  if !os.path.exists("build.upak"):
     put("Error: No 'build.upak' file found.")
     sys.exit()
-  }
   cfile = open("build.upak", "r")
   pfile = cfile.read().splitlines()
-  for i in range(0, len(pfile)) {
-    match pfile[i].split()[0] {
-      "ver:" -> {
+  for i in range(0, len(pfile)):
+    match pfile[i].split()[0]:
+      "ver:" ->
         ver = pfile[i].split()[1]
         hasVer = true
-      }
-      "src:" -> {
+      "src:" ->
         builddir = pfile[i].split()[1]
         hasSrc = true
-      }
       _ -> sys.exit()
-    }
-  }
-  if !hasSrc || !hasVer {
+  if !hasSrc || !hasVer:
     put("Error: You are missing either 'ver' or 'src'.")
     sys.exit()
-  }
   put("UPAK: Building for version " <> ver)
   os.system("udin c " <> builddir)
-}
-elif sys.argv[1] == "ver" {
+elif sys.argv[1] == "ver":
   put("0.1.3")
-}
